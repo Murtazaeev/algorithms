@@ -24,6 +24,7 @@ function same(arr1, arr2) {
   let frequencyCounter2 = {};
 
   for (let val of arr1) {
+    console.log("hello", frequencyCounter1[val]);
     frequencyCounter1[val] = (frequencyCounter1[val] || 0) + 1;
   }
   for (let val of arr2) {
@@ -40,7 +41,7 @@ function same(arr1, arr2) {
   return true;
 }
 
-console.log(same([1, 2, 3, 2, 5], [9, 4, 1, 4, 11]));
+console.log(same([1, 2, 3, 2, 5], [9, 4, 1, 4, 25]));
 
 // anagram challange
 function validAnagram(string1, string2) {
@@ -161,5 +162,19 @@ function search(arr, num) {
 
 console.log(search([1, 2, 3, 4, 5, 6], 4));
 
-
 // BinarySearch log(n)
+
+
+//challange
+function areThereDuplicates() {
+  let obj = {};
+  for(let i=0;i<arguments.length;i++){
+    let val = arguments[i];
+    if(!obj[val]){
+      obj[val] = 1;
+    } else {
+      return true;
+    }
+  }
+  return false;
+}

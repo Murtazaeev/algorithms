@@ -313,3 +313,105 @@ function isSubsequence(str1, str2) {
   if (str2[0] === str1[0]) return isSubsequence(str1.slice(1), str2.slice(1));
   return isSubsequence(str1, str2.slice(1));
 }
+
+// Sliding Window - maxSubarraySum
+// Given an array of integers and a number, write a function called maxSubarraySum,
+// which finds the maximum sum of a subarray with the length of the
+//  number passed to the function.
+// Note that a subarray must consist of consecutive elements from the original array.
+// In the first example below,|
+//  [100, 200, 300] is a subarray of the original array, but [100, 300] is not.
+// maxSubarraySum([100,200,300,400], 2) // 700
+// maxSubarraySum([1,4,2,10,23,3,1,0,20], 4)  // 39
+// maxSubarraySum([-3,4,0,-2,6,-1], 2) // 5
+// maxSubarraySum([3,-2,7,-4,1,-1,4,-2,1],2) // 5
+// maxSubarraySum([2,3], 3) // null
+// Constraints:
+
+// Time Complexity - O(N)
+
+// Space Complexity - O(1)
+
+// n^2 answer
+function maxSubarraySum(arr, num) {
+  if (arr.length < num) return null;
+
+  let sum = -Infinity;
+  for (let i = 0; i < arr.length - num + 1; i++) {
+    let temp = 0;
+    for (let j = 0; j < num; j++) {
+      temp += arr[i + j];
+    }
+    if (temp > sum) {
+      sum = temp;
+    }
+  }
+  return sum;
+}
+
+// maxSubarraySum([100,200,300,400], 2) // 700
+
+function maxSubarraySum(arr, num) {
+  let maxSum = 0;
+  let tempSum = 0;
+  if (arr.length < num) return null;
+
+  for (let i = 0; i < num; i++) {
+    maxSum += arr[i];
+  }
+
+  tempSum = maxSum;
+  for (let i = num; i < arr.length; i++) {
+    tempSum = tempSum - arr[i - num] + arr[i];
+    maxSum = Math.max(tempSum, maxSum);
+  }
+  return maxSum;
+}
+
+// minSubArrayLen Solution
+function minSubArrayLen(nums, sum) {
+  let total = 0;
+  let start = 0;
+  let end = 0;
+  let minLen = Infinity;
+
+  while (start < nums.length) {
+    // if current window doesn't add up to the given sum then
+    // move the window to right
+    if (total < sum && end < nums.length) {
+      total += nums[end];
+      end++;
+    }
+    // if current window adds up to at least the sum given then
+    // we can shrink the window
+    else if (total >= sum) {
+      minLen = Math.min(minLen, end - start);
+      total -= nums[start];
+      start++;
+    }
+    // current total less than required total but we reach the end, need this or else we'll be in an infinite loop
+    else {
+      break;
+    }
+  }
+
+  return minLen === Infinity ? 0 : minLen;
+}
+// findLongestSubstring Solution
+function findLongestSubstring(str) {
+  let longest = 0;
+  let seen = {};
+  let start = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    let char = str[i];
+    if (seen[char]) {
+      start = Math.max(start, seen[char]);
+    }
+    // index - beginning of substring + 1 (to include current in count)
+    longest = Math.max(longest, i - start + 1);
+    // store the index of the next char so as to not double count
+    seen[char] = i + 1;
+  }
+  return longest;
+}

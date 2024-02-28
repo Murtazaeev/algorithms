@@ -50,10 +50,32 @@ class SinglyLinkedList {
     this.length++;
     return this;
   }
+
+  pop() {
+    if (!this.head) return undefined;
+    var curr = this.head;
+    var newTail = curr;
+
+    while (curr.next) {
+      newTail = curr;
+      curr = curr.next;
+    }
+    this.tail = newTail;
+    this.tail.next = null;
+    this.length--;
+    if (this.length === 0) {
+      this.head === null;
+      this.tail === null;
+    }
+    return curr;
+  }
 }
 
 var list = new SinglyLinkedList();
 
 list.push("hello");
 list.push("wassup");
+console.log(list);
+list.pop();
+console.log(list);
 // console.log(list);
